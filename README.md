@@ -6,6 +6,11 @@ StylePort is an iOS tool that adds Photographic Styles 3 editing data to compati
 
 目前仅在 iPhone 17 Pro Max 上测试。
 
+## 网页版
+
+`web` 目录提供无需安装、无需构建的 StylePort 网页版。直接用浏览器打开
+[`web/index.html`](web/index.html) 即可在本地选择、转换并下载 HEIC 照片；图片不会上传。
+
 ## 软件截图
 
 <p>

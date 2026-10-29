@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="过片 StylePort 网页版：在浏览器中为 iPhone HEIC 照片补齐摄影风格 3 数据，照片不会上传。"
+    />
+    <meta name="theme-color" content="#f3eee4" />
+    <title>过片 StylePort · 摄影风格 3 在线转换</title>
+    <link rel="icon" href="assets/icon.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="core.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-grain" aria-hidden="true"></div>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="过片 StylePort 首页">
+        <img src="assets/icon.png" alt="" class="brand-icon" />
+        <span class="brand-name">过片</span>
+        <span class="brand-latin">STYLEPORT</span>
+      </a>
+      <div class="local-badge">
+        <span class="local-dot" aria-hidden="true"></span>
+        原图不上传
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="page-title">
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span>PHOTOGRAPHIC STYLES 3</span>
+            <span class="eyebrow-line" aria-hidden="true"></span>
+            <span>WEB EDITION</span>
+          </div>
+          <h1 id="page-title">
+            给旧照片，<br />
+            <span class="accent-wrap">多一点表达。</span>
+          </h1>
+          <p class="lead">
+            为支持「摄影风格 2」的 iPhone
+            HEIC 照片补齐「摄影风格 3」数据。无需安装，不重新编码，照片始终留在你的设备里。
+          </p>
+          <ul class="feature-list" aria-label="转换特点">
+            <li><span>01</span>保留原始画质</li>
+            <li><span>02</span>支持批量处理</li>
+            <li><span>03</span>本地即时完成</li>
+          </ul>
+        </div>
+
+        <section class="converter-card" aria-labelledby="converter-title">
+          <div class="converter-topline">
+            <div>
+              <span class="section-number">01 / CONVERT</span>
+              <h2 id="converter-title">开始转换</h2>
+            </div>
+            <span class="privacy-chip">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M7.5 10V7.5a4.5 4.5 0 0 1 9 0V10M5.5 10h13v10h-13z"
+                />
+              </svg>
+              本地处理
+            </span>
+          </div>
+
+          <div id="emptyState">
+            <label class="drop-zone" id="dropZone" for="photoInput">
+              <input
+                id="photoInput"
+                type="file"
+                accept="image/*,.heic,.heif"
+                multiple
+              />
+              <span class="drop-visual" aria-hidden="true">
+                <svg viewBox="0 0 64 64">
+                  <path d="M17 22.5h30a5 5 0 0 1 5 5v19a5 5 0 0 1-5 5H17a5 5 0 0 1-5-5v-19a5 5 0 0 1 5-5Z" />
+                  <path d="m12 34 12.5-8.5L38 37l7-5 7 6" />
+                  <circle cx="43" cy="28" r="3.5" />
+                  <path d="M24 18.5 29.5 12h5L40 18.5" />
+                </svg>
+                <span class="plus-mark">+</span>
+              </span>
+              <strong>把 HEIC 照片拖到这里</strong>
+              <span>或点击选择照片，可一次添加多张</span>
+              <span class="browse-button">选择照片</span>
+            </label>
+            <div class="converter-footnote">
+              <span>支持 .HEIC / .HEIF</span>
+              <span class="footnote-divider" aria-hidden="true"></span>
+              <span>建议使用 iPhone 拍摄的原图</span>
+            </div>
+          </div>
+
+          <div id="queueState" class="queue-state" hidden>
+            <div class="queue-heading">
+              <div>
+                <span class="queue-label">已选择</span>
+                <strong id="queueCount">0 张照片</strong>
+              </div>
+              <button class="text-button" id="addMoreButton" type="button">
+                继续添加
+              </button>
+            </div>
+            <div class="file-list" id="fileList" aria-live="polite"></div>
+            <div class="result-summary" id="resultSummary" role="status" hidden></div>
+            <div class="queue-progress" id="queueProgress" hidden>
+              <div class="progress-info">
+                <span id="progressText">准备转换</span>
+                <span id="progressPercent">0%</span>
+              </div>
+              <div class="progress-track">
+                <span id="progressBar"></span>
+              </div>
+            </div>
+            <div class="queue-actions">
+              <button class="clear-button" id="clearButton" type="button">
+                清空
+              </button>
+              <button class="convert-button" id="convertButton" type="button">
+                <span id="convertButtonText">开始转换</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M5 12h13M13 7l5 5-5 5" />
+                </svg>
+              </button>
+            </div>
+            <button class="download-all" id="downloadAllButton" type="button" hidden>
+              下载全部转换结果
+            </button>
+          </div>
+        </section>
+      </section>
+
+      <section class="promise-strip" aria-label="产品承诺">
+        <article>
+          <span class="promise-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3 4.5 6v5.5c0 4.7 3.2 8 7.5 9.5 4.3-1.5 7.5-4.8 7.5-9.5V6L12 3Z" />
+              <path d="m8.8 12 2.1 2.1 4.5-4.6" />
+            </svg>
+          </span>
+          <div>
+            <strong>照片不上传</strong>
+            <p>全部计算在浏览器内完成</p>
+          </div>
+        </article>
+        <article>
+          <span class="promise-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 5h14v14H5z" />
+              <path d="m8 16 3-3 2 2 3-4 2 2" />
+            </svg>
+          </span>
+          <div>
+            <strong>画面不变</strong>
+            <p>只补元数据，不重新压缩</p>
+          </div>
+        </article>
+        <article>
+          <span class="promise-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M13 2 4.5 13H11l-1 9L19.5 10H13l0-8Z" />
+            </svg>
+          </span>
+          <div>
+            <strong>打开即用</strong>
+            <p>无需账号、安装或上传等待</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="how-section" aria-labelledby="how-title">
+        <div class="section-intro">
+          <span class="section-number">02 / HOW IT WORKS</span>
+          <h2 id="how-title">三步，把风格带回来</h2>
+          <p>
+            网页版复用了 StylePort 的 HEIC 容器补写逻辑。图片编码、HDR
+            色调映射和原有拍摄信息都会保留。
+          </p>
+        </div>
+        <ol class="steps">
+          <li>
+            <span class="step-no">01</span>
+            <div class="step-icon">
+              <svg viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M9 16h30v25H9zM14 11h20l3 5H11l3-5Z" />
+                <circle cx="24" cy="28" r="7" />
+              </svg>
+            </div>
+            <h3>选择原图</h3>
+            <p>从相机胶卷、文件或 iCloud 中选择 HEIC 照片。</p>
+          </li>
+          <li>
+            <span class="step-no">02</span>
+            <div class="step-icon">
+              <svg viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M9 14h30v24H9z" />
+                <path d="m12 33 9-10 7 8 5-5 5 5" />
+                <path d="m31 9 3 4 3-4" />
+              </svg>
+            </div>
+            <h3>本地转换</h3>
+            <p>自动识别兼容性，为照片补齐摄影风格 3 数据。</p>
+          </li>
+          <li>
+            <span class="step-no">03</span>
+            <div class="step-icon">
+              <svg viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M24 8v23M16 23l8 8 8-8" />
+                <path d="M9 34v5h30v-5" />
+              </svg>
+            </div>
+            <h3>下载副本</h3>
+            <p>文件名自动追加 _GP，原照片不会被覆盖。</p>
+          </li>
+        </ol>
+      </section>
+
+      <section class="notes-section" aria-labelledby="notes-title">
+        <div>
+          <span class="section-number">03 / GOOD TO KNOW</span>
+          <h2 id="notes-title">转换前，先了解这些</h2>
+        </div>
+        <div class="notes-list">
+          <details>
+            <summary>哪些照片可以转换？</summary>
+            <p>
+              需要是包含可编辑摄影风格与 HDR 色调映射数据的 iPhone HEIC
+              原图，且目前使用摄影风格 2。已经包含摄影风格 3
+              的照片会自动跳过。
+            </p>
+          </details>
+          <details>
+            <summary>为什么转换没有改变画面？</summary>
+            <p>
+              StylePort 不重新编码照片，而是直接把摄影风格 3
+              所需的项目、蒙版关联与元数据写入 HEIC 容器，因此原始主图编码不变。
+            </p>
+          </details>
+          <details>
+            <summary>实况照片和编辑过的照片呢？</summary>
+            <p>
+              网页版处理所选 HEIC 照片本体。实况照片的视频轨道、iCloud
+              相册中的编辑记录不会在此页面重建；需要完整实况链路时请使用原生 StylePort App。
+            </p>
+          </details>
+          <details>
+            <summary>下载后在哪里打开？</summary>
+            <p>
+              推荐在 iPhone、iPad 或 Mac 的 Safari 中下载并用系统照片 App
+              打开。部分桌面浏览器不能直接预览 HEIC，但不会影响文件转换。
+            </p>
+          </details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-brand">
+        <img src="assets/icon.png" alt="" />
+        <div>
+          <strong>过片 · StylePort</strong>
+          <span>让每一张照片，保留你喜欢的样子。</span>
+        </div>
+      </div>
+      <div class="footer-meta">
+        <a href="https://github.com/WhiteBr1ck/StylePort" target="_blank" rel="noreferrer">
+          GitHub 开源项目
+        </a>
+        <span>Apache-2.0</span>
+        <span>本工具与 Apple 无隶属关系</span>
+      </div>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  </body>
+</html>
